@@ -51,6 +51,8 @@ def main():
 
 
 def run(rank, n_gpus, hps):
+  print("rank :")
+  print(rank)
   global global_step
   if rank == 0:
     logger = utils.get_logger(hps.model_dir)
