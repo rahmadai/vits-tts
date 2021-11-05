@@ -77,7 +77,7 @@ def run(rank, n_gpus, hps):
       shuffle=True)
   collate_fn = TextAudioCollate()
   train_loader = DataLoader(train_dataset, num_workers=8, shuffle=False, pin_memory=True,
-      collate_fn=collate_fn)
+      collate_fn=collate_fn, batch_sampler=train_sampler)
   if rank == 0:
     eval_dataset = TextAudioLoader(hps.data.validation_files, hps.data)
     eval_loader = DataLoader(eval_dataset, num_workers=8, shuffle=False,
@@ -133,7 +133,7 @@ def train_and_evaluate(rank, epoch, hps, nets, optims, schedulers, scaler, loade
   if writers is not None:
     writer, writer_eval = writers
 
-  # train_loader.batch_sampler.set_epoch(epoch)
+  train_loader.batch_sampler.set_epoch(epoch)
   global global_step
 
   net_g.train()
