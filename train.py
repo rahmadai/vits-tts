@@ -68,13 +68,13 @@ def run(rank, n_gpus, hps):
   print(hps.data.training_files)
   print(hps.data)
   train_dataset = TextAudioLoader(hps.data.training_files, hps.data)
-  # train_sampler = DistributedBucketSampler(
-  #     train_dataset,
-  #     hps.train.batch_size,
-  #     [32,300,400,500,600,700,800,900,1000],
-  #     num_replicas=n_gpus,
-  #     rank=rank,
-  #     shuffle=True)
+  train_sampler = DistributedBucketSampler(
+      train_dataset,
+      hps.train.batch_size,
+      [32,300,400,500,600,700,800,900,1000],
+      num_replicas=n_gpus,
+      rank=rank,
+      shuffle=True)
   collate_fn = TextAudioCollate()
   train_loader = DataLoader(train_dataset, num_workers=8, shuffle=False, pin_memory=True,
       collate_fn=collate_fn)
