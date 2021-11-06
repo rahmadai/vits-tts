@@ -331,6 +331,10 @@ class DistributedBucketSampler(torch.utils.data.distributed.DistributedSampler):
             total_batch_size = self.num_replicas * self.batch_size
             rem = (total_batch_size - (len_bucket % total_batch_size)) % total_batch_size
             num_samples_per_bucket.append(len_bucket + rem)
+            print("buckets :")
+            print(buckets)
+            print("num_samples_per_bucket :")
+            print(num_samples_per_bucket)
         return buckets, num_samples_per_bucket
   
     def __iter__(self):
@@ -354,7 +358,8 @@ class DistributedBucketSampler(torch.utils.data.distributed.DistributedSampler):
           num_samples_bucket = self.num_samples_per_bucket[i]
   
           # add extra samples to make it evenly divisible
-        #   print(len_bucket)
+          print("len_bucket :")
+          print(len_bucket)
           rem = num_samples_bucket - len_bucket
           ids_bucket = ids_bucket + ids_bucket * (rem // len_bucket) + ids_bucket[:(rem % len_bucket)]
   
