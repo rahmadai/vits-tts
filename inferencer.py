@@ -26,7 +26,7 @@ def get_text(text, hps):
     text_norm = torch.LongTensor(text_norm)
     return text_norm
 
-hps = utils.get_hparams_from_file("/home/server/rahmad/Work/WIN/AI/Speech/vits/model/config.json")
+hps = utils.get_hparams_from_file("/home/server/rahmad/Work/WIN/AI/Speech/vits/model/wdy_indo/config.json")
 
 net_g = SynthesizerTrn(
     len(symbols),
@@ -35,9 +35,9 @@ net_g = SynthesizerTrn(
     **hps.model).cuda()
 _ = net_g.eval()
 
-_ = utils.load_checkpoint("/home/server/rahmad/Work/WIN/AI/Speech/vits/model/G_41000.pth", net_g, None)
+_ = utils.load_checkpoint("/home/server/rahmad/Work/WIN/AI/Speech/vits/model/wdy_indo/G_14000.pth", net_g, None)
 
-stn_tst = get_text("The links mentioned above are only a small selection of what is available. If you have a link that is worth sharing, then please add a comment below and let us know!", hps)
+stn_tst = get_text("proklamasi kemerdekaan indonesia terjadi pada 17 agustus 1945", hps)
 with torch.no_grad():
     x_tst = stn_tst.cuda().unsqueeze(0)
     x_tst_lengths = torch.LongTensor([stn_tst.size(0)]).cuda()
